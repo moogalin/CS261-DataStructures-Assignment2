@@ -1,0 +1,51 @@
+Megan Aldridge
+Assigment 2 Part B
+Amortized Analysis
+1. How many cost units are spent in the entire process of performing 32 consecutive push operations on an empty array which starts out at capacity 8, assuming that the array will double in capacity each time a new item is added to an already full dynamic array?
+       Items 1 – 8 = 8 units of cost
+       + Item 9 = 8 + 1 = 9 units of cost
+       + Item 10 – 16 = 7 units of cost
+       + Item 17 = 16 + 1 = 17 units of cost
+       + Item 18- 32 = 15 units of cost
+       = 56 units of cost 
+As N (ie. The number of pushes) grows large, under this strategy for resizing, what is the big-oh complexity for a push?
+As N grows large, the big-oh complexity for a push is:
+Answer: O(N/N) = O(1)+ 
+This is because for N pushes, we have a total cost per push of 
+       [N + (N/2) + (N/4) +…+ 1 + C] / N ~= N+C/N ~= 1 (as N tends towards infinity)
+	Where C = a constant representing the sum of single unit cost pushes.
+	As N approaches infinity, the constant C can be ignored. 
+And each N, N/2, N/4, etc. added represents the doubling (or working backwards, halving) of the array. 
+
+2. How many cost units are spent in the entire process of performing 32 consecutive push operations on an empty array which starts out at capacity 8, assuming that the array will grow by a constant 2 spaces each time a new item is added to an already full dynamic array? 
+	Items 1-8 = 8 units of cost
+	+ Item 9 = 8 + 1 = 9 units of cost (new capacity = 10)
+	+ Item 10 = 1 unit of cost
+	+ Item 11 = 10 + 1 = 11 units of cost (new capacity = 12)
+	+ Item 12 = 1 unit of cost
+	+ Item 13 = 12 + 1 = 13 units of cost (new capacity = 14)
+	+ Item 14 = 1 unit of cost 
+	… 
++ Odd Items 15- 31 = 15+17+19+21+23+25+27+29+31 = 207 units of cost (each of these items requires new array)
++ Even Items 16 – 32 = 1 unit cost per even item = 9 units of cost 
+= 260 units of cost 
+	
+As N (ie. The number of pushes) grows large, under this strategy for resizing, what is the big-oh complexity for a push?
+As N grows large, the big-oh complexity for a push is:
+Answer: O(N2)
+This is because doubling of the array occurs with every other item added. 
+Therefore, approximately (N/2) times, N operations will be performed. 
+And, (N/2)*N + C = N2 as N approaches infinity. 
+	Where C is a constant representing the single unit pushes. 
+	As N approaches infinity, the constant C can be ignored. 
+
+3. Suppose that a dynamic array stack doubles its capacity when it is full, and shrinks (on Pop only) its capacity by half when the array is half full or less. Can you devise a sequence of N push() and pop() operations which will result in poor performance (O(N2) total cost)?
+Assuming that the array stack starts at capacity and size N/2, we can compute the following operations N times:
+Loop N times
+	Push() (stack doubles, capacity = N, N/2 values are copied to larger array)
+	Pop() (stack shrinks, capacity = N/2, N/2 values are copied to smaller array)
+	Repeat loop
+Each time the push and pop operations occur N/2 + N/2 values must be copied. Therefore, if we perform the push and pop operations N times, there will be approximately N* (N) operations performed on the stack. This results in poor performance of O(n) = N* N + C ~= N2 as N approaches infinity. 
+
+How might you adjust the array’s shrinking policy to avoid this? (Hint: You may assume that the initial capacity of the array is N/2)
+	If the initial capacity and size of the array is N/2 and an item is added to adjust capacity to N and size to N/2 + 1, you could adjust the shrinking policy to shrink the capacity by half when the array is ¼ full instead of half full. This would allow someone to add and remove one item without doubling and then immediately shrinking the capacity of the array.
